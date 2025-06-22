@@ -1,4 +1,4 @@
-import { createStore } from 'vuex/types/index.js'
+import { createStore } from 'vuex'
 import { mutations } from './race.mutations'
 import { SEED_STATE } from './race.state'
 

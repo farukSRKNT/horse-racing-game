@@ -43,97 +43,97 @@ const handleClick = (event: MouseEvent): void => {
 </script>
 
 <style module lang="scss">
-@import '../../../styles/design-tokens.scss';
+@use '../../../styles/design-tokens.scss' as tokens;
 
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border: none;
-  border-radius: $border-radius-medium;
-  font-family: $font-family-primary;
-  font-weight: $font-weight-medium;
+  border-radius: tokens.$border-radius-medium;
+  font-family: tokens.$font-family-primary;
+  font-weight: tokens.$font-weight-medium;
   cursor: pointer;
-  transition: all $transition-duration-fast $transition-timing-ease;
+  transition: all tokens.$transition-duration-fast tokens.$transition-timing-ease;
   text-decoration: none;
   outline: none;
 
   &:focus-visible {
-    outline: 2px solid $color-primary-500;
+    outline: 2px solid tokens.$color-primary-500;
     outline-offset: 2px;
   }
 
   // Sizes
   &--small {
-    padding: $spacing-xs $spacing-sm;
-    font-size: $font-size-sm;
-    line-height: $line-height-sm;
+    padding: tokens.$spacing-xs tokens.$spacing-sm;
+    font-size: tokens.$font-size-sm;
+    line-height: tokens.$line-height-sm;
   }
 
   &--medium {
-    padding: $spacing-sm $spacing-md;
-    font-size: $font-size-base;
-    line-height: $line-height-base;
+    padding: tokens.$spacing-sm tokens.$spacing-md;
+    font-size: tokens.$font-size-base;
+    line-height: tokens.$line-height-base;
   }
 
   &--large {
-    padding: $spacing-md $spacing-lg;
-    font-size: $font-size-lg;
-    line-height: $line-height-lg;
+    padding: tokens.$spacing-md tokens.$spacing-lg;
+    font-size: tokens.$font-size-lg;
+    line-height: tokens.$line-height-lg;
   }
 
   // Variants
   &--primary {
-    background-color: $color-primary-600;
-    color: $color-white;
+    background-color: tokens.$color-primary-600;
+    color: tokens.$color-white;
 
     &:hover:not(:disabled) {
-      background-color: $color-primary-700;
+      background-color: tokens.$color-primary-700;
     }
 
     &:active:not(:disabled) {
-      background-color: $color-primary-800;
+      background-color: tokens.$color-primary-800;
     }
   }
 
   &--secondary {
-    background-color: $color-gray-100;
-    color: $color-gray-900;
-    border: 1px solid $color-gray-300;
+    background-color: tokens.$color-gray-100;
+    color: tokens.$color-gray-900;
+    border: 1px solid tokens.$color-gray-300;
 
     &:hover:not(:disabled) {
-      background-color: $color-gray-200;
-      border-color: $color-gray-400;
+      background-color: tokens.$color-gray-200;
+      border-color: tokens.$color-gray-400;
     }
 
     &:active:not(:disabled) {
-      background-color: $color-gray-300;
+      background-color: tokens.$color-gray-300;
     }
   }
 
   &--danger {
-    background-color: $color-danger-600;
-    color: $color-white;
+    background-color: tokens.$color-danger-600;
+    color: tokens.$color-white;
 
     &:hover:not(:disabled) {
-      background-color: $color-danger-700;
+      background-color: tokens.$color-danger-700;
     }
 
     &:active:not(:disabled) {
-      background-color: $color-danger-800;
+      background-color: tokens.$color-danger-800;
     }
   }
 
   &--ghost {
     background-color: transparent;
-    color: $color-primary-600;
+    color: tokens.$color-primary-600;
 
     &:hover:not(:disabled) {
-      background-color: $color-primary-50;
+      background-color: tokens.$color-primary-50;
     }
 
     &:active:not(:disabled) {
-      background-color: $color-primary-100;
+      background-color: tokens.$color-primary-100;
     }
   }
 

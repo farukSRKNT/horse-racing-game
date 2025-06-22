@@ -20,7 +20,7 @@
   "dependencies": {
     "vue": "^3.4.0",
     "vue-router": "^4.3.0",
-    "vuex": "^4.1.0"
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.51.1",
