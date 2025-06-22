@@ -15,7 +15,7 @@ describe('mutations', () => {
       // apply mutation
       GENERATE_HORSE_NAMES(state)
       // assert result
-      expect(state.horseNames).toHaveLength(20)
+      expect(state.horses).toHaveLength(20)
     })
     it('should generate unique horse names', () => {
       // mock state
@@ -25,8 +25,8 @@ describe('mutations', () => {
       // apply mutation
       GENERATE_HORSE_NAMES(state)
       // assert result
-      const uniqueHorseNames = new Set(state.horseNames)
-      expect(uniqueHorseNames.size).toBe(state.horseNames.length)
+      const uniqueHorseNames = new Set(state.horses)
+      expect(uniqueHorseNames.size).toBe(state.horses.length)
     })
     it('should generate horse names from the pool randomly', () => {
       // mock state
@@ -37,21 +37,26 @@ describe('mutations', () => {
       const results = Array.from({ length: 10 }, () => {
         const tempState: RaceState = { ...state }
         GENERATE_HORSE_NAMES(tempState)
-        return tempState.horseNames
+        return tempState.horses
       })
       // assert that not all results are the same
       const firstResult = results[0]
-      const allSame = results.every((result) => result.join(',') === firstResult.join(','))
+      const allSame = results.every(
+        (result) =>
+          result.map((horse) => horse.name).join(',') ===
+          firstResult.map((horse) => horse.name).join(','),
+      )
       expect(allSame).toBe(false)
     })
   })
   describe('GENERATE_RACE_SCHEDULE', () => {
     it('should generate 6 rounds', () => {
       // mock state with horse names
+
       const state: RaceState = {
         ...SEED_STATE,
-        horseNames: Array.from({ length: 20 }, (_, i) => `Horse ${i + 1}`),
       }
+      GENERATE_HORSE_NAMES(state)
 
       // apply mutation
       GENERATE_RACE_SCHEDULE(state)
@@ -62,8 +67,8 @@ describe('mutations', () => {
       // mock state with horse names
       const state: RaceState = {
         ...SEED_STATE,
-        horseNames: Array.from({ length: 20 }, (_, i) => `Horse ${i + 1}`),
       }
+      GENERATE_HORSE_NAMES(state)
       // apply mutation
       GENERATE_RACE_SCHEDULE(state)
 
@@ -72,7 +77,7 @@ describe('mutations', () => {
         expect(round.selectedHorses).toHaveLength(10)
       })
     })
-    it('should pick horse names from the horseNames generated', () => {
+    it('should pick horse names from the horses generated', () => {
       // mock state with horse names
       const state: RaceState = {
         ...SEED_STATE,
@@ -84,7 +89,7 @@ describe('mutations', () => {
       // assert result
       state.raceSchedule?.rounds.forEach((round) => {
         round.selectedHorses.forEach((horse) => {
-          expect(state.horseNames).toContain(horse)
+          expect(state.horses).toContain(horse)
         })
       })
     })

@@ -1,3 +1,4 @@
+import type { Horse } from './race.abstract'
 import { HORSE_NAMES_POOL } from './race.fixture'
 
 /**
@@ -11,7 +12,7 @@ export const generateRandomHorseNames = (): string[] => {
 /**
  * Randomly selects specified count of unique horse names from the pool
  */
-export const pickHorses = (horseList: string[]): string[] => {
+export const pickHorses = (horseList: Array<Horse>): Array<Horse> => {
   const COUNT = 10
 
   const shuffled = [...horseList].sort(() => 0.5 - Math.random())

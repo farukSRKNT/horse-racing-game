@@ -1,10 +1,15 @@
 import { MutationTypes, type RaceState } from './race.abstract'
-import { ROUND_DISTANCES, ROUND_PER_RACE } from './race.fixture'
+import { HORSE_COLORS, ROUND_DISTANCES, ROUND_PER_RACE } from './race.fixture'
 import { generateRandomHorseNames, pickHorses } from './race.utils'
 
 export const mutations = {
   [MutationTypes.GENERATE_HORSE_NAMES](state: RaceState) {
-    state.horseNames = generateRandomHorseNames()
+    state.horses = generateRandomHorseNames().map((name, index) => ({
+      id: `horse-${index + 1}`, // Unique ID for each horse
+      name,
+      color: HORSE_COLORS[index],
+      condition: Math.floor(Math.random() * 100) + 1, // Random condition
+    }))
   },
   [MutationTypes.GENERATE_RACE_SCHEDULE](state: RaceState) {
     // GENERATE 6 rounds with random distances and selected horses
@@ -12,7 +17,7 @@ export const mutations = {
       rounds: Array.from({ length: ROUND_PER_RACE }, (_, index) => ({
         id: index + 1,
         distance: ROUND_DISTANCES[index],
-        selectedHorses: pickHorses(state.horseNames),
+        selectedHorses: pickHorses(state.horses),
       })),
     }
   },

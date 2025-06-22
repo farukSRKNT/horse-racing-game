@@ -1,7 +1,7 @@
 import type { RaceState } from './race.abstract'
 
 export const SEED_STATE: RaceState = {
-  horseNames: [],
+  horses: [],
   raceSchedule: null,
   results: [],
   isRunning: false,

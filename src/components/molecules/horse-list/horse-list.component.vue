@@ -2,25 +2,24 @@
   <div :class="$style.horseListContainer">
     <BaseTable
       :columns="columns"
-      :data="horseTableData"
+      :data="horses"
       :striped="true"
       :hoverable="true"
       :default-sort="{ key: 'condition', direction: 'desc' }"
       :empty-message="'No horses available for racing'"
-      @row-click="handleRowClick"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import BaseTable from '../../atoms/table/base-table.component.vue'
 import type { TableColumn } from '../../atoms/table/base-table.abstract'
-import type { HorseTableData } from './horse-list.abstract'
-import { generateHorseColor, generateCondition } from './horse-list.utils'
 
 const store = useStore()
+
+const horses = computed(() => store.state.race.horses)
 
 // Define table columns
 const columns: TableColumn[] = [
@@ -32,28 +31,6 @@ const columns: TableColumn[] = [
 onMounted(() => {
   store.commit('race/GENERATE_HORSE_NAMES')
 })
-
-// Get horse names from store and transform to table data
-const horseTableData = computed<HorseTableData[]>(() => {
-  const horseNames = store.state.race.horseNames || []
-
-  return horseNames.map(
-    (name: string, index: number): HorseTableData => ({
-      id: `horse-${index}`,
-      name,
-      condition: generateCondition(name), // Mock condition based on name
-      color: generateHorseColor(name), // Generate consistent color based on name
-    }),
-  )
-})
-
-console.log('raceSchedule:', store.state.race.raceSchedule)
-
-// Handle row click event
-const handleRowClick = (horse: HorseTableData): void => {
-  console.log('Horse selected:', horse)
-  // Can emit event to parent if needed
-}
 </script>
 
 <style module lang="scss">

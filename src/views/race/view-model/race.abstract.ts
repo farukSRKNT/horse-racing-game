@@ -1,5 +1,12 @@
+export interface Horse {
+  id: string
+  name: string
+  color: string
+  condition: number // 1-100 range
+}
+
 export interface RaceState {
-  horseNames: string[]
+  horses: Array<Horse>
   raceSchedule: RaceSchedule | null
   results: RoundResult[]
   isRunning: boolean
@@ -16,7 +23,7 @@ export enum MutationTypes {
 export interface Round {
   id: number
   distance: number
-  selectedHorses: string[]
+  selectedHorses: Horse[]
 }
 
 export interface RaceSchedule {
@@ -26,7 +33,7 @@ export interface RaceSchedule {
 interface RoundResult {
   roundId: number
   results: {
-    horse: string
+    horse: Horse
     time: number
     position: number
   }[]
