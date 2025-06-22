@@ -1,10 +1,10 @@
 import { createStore } from 'vuex/types/index.js'
 import { mutations } from './race.mutations'
-import { state } from './race.state'
+import { SEED_STATE } from './race.state'
 
 export const raceModule = {
   namespaced: true,
-  state,
+  state: SEED_STATE,
   mutations,
 }
 

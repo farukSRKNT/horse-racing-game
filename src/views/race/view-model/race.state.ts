@@ -1,7 +1,8 @@
-export interface RaceState {
-  horseNames: string[]
-}
+import type { RaceState } from './race.abstract'
 
-export const state: RaceState = {
+export const SEED_STATE: RaceState = {
   horseNames: [],
+  raceSchedule: null,
+  results: [],
+  isRunning: false,
 }
