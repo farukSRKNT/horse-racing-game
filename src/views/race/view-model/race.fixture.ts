@@ -132,3 +132,5 @@ export const HORSE_COLORS: readonly string[] = [
   '#2C3E50', // Dark Blue
   '#7F8C8D', // Gray
 ] as const
+
+export const MIN_HORSE_SPEED: number = 10

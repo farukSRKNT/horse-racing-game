@@ -1,6 +1,6 @@
 import { MutationTypes, type RaceState } from './race.abstract'
 import { HORSE_COLORS, ROUND_DISTANCES, ROUND_PER_RACE } from './race.fixture'
-import { generateRandomHorseNames, pickHorses } from './race.utils'
+import { generateRandomHorseNames, getNewHorseSpeed, pickHorses } from './race.utils'
 
 export const mutations = {
   [MutationTypes.GENERATE_HORSE_NAMES](state: RaceState) {
@@ -13,28 +13,41 @@ export const mutations = {
   },
   [MutationTypes.GENERATE_RACE_SCHEDULE](state: RaceState) {
     // GENERATE 6 rounds with random distances and selected horses
-    state.raceSchedule = {
-      rounds: Array.from({ length: ROUND_PER_RACE }, (_, index) => ({
-        id: index + 1,
-        distance: ROUND_DISTANCES[index],
-        selectedHorses: pickHorses(state.horses),
+    state.raceSchedule = Array.from({ length: ROUND_PER_RACE }, (_, index) => ({
+      id: index + 1,
+      distance: ROUND_DISTANCES[index],
+      selectedHorses: pickHorses(state.horses),
+    }))
+  },
+  [MutationTypes.START](state: RaceState) {
+    if (state.isRunning) return // Prevent starting if already running
+
+    state.isRunning = true
+    state.ongoingRace = {
+      roundId: state.results.at(-1)?.roundId || 1, // Start with the first round or continue from the last completed round
+      distance: state.raceSchedule[0].distance,
+      horses: state.raceSchedule[0].selectedHorses.map((horse) => ({
+        ...horse,
+        position: 0, // Initial position
+        currentSpeed: 0, // Initial speed
+        distanceCovered: 0, // Initial distance covered
       })),
     }
   },
-  [MutationTypes.START](state: RaceState) {
-    state.isRunning = true
+  [MutationTypes.PAUSE](state: RaceState) {
+    state.isRunning = false
   },
   [MutationTypes.PROCEED](state: RaceState) {
-    if (!state.isRunning || !state.raceSchedule) return
+    if (!state.isRunning || state.raceSchedule.length === 0) return
 
-    const currentRound = state.raceSchedule.rounds.find(
+    const currentRound = state.raceSchedule.find(
       (round) => !state.results.some((result) => result.roundId === round.id),
     )
 
     if (!currentRound) return
 
     const results = currentRound.selectedHorses.map((horse) => ({
-      horse,
+      ...horse,
       time: Math.random() * 100, // Simulate random time
       position: 0, // Placeholder for position
     }))
@@ -47,11 +60,52 @@ export const mutations = {
       results,
     })
     // Check if all rounds are completed
-    if (state.results.length === state.raceSchedule.rounds.length) {
+    if (state.results.length === state.raceSchedule.length) {
       state.isRunning = false
     }
   },
-  [MutationTypes.PAUSE](state: RaceState) {
-    state.isRunning = false
+  [MutationTypes.TICK](state: RaceState) {
+    // Start and proceed one second of the race
+    const { ongoingRace } = state
+    if (ongoingRace === null || !state.isRunning) return
+
+    ongoingRace.horses.forEach((horse) => {
+      // Simulate speed and distance covered
+      horse.currentSpeed = getNewHorseSpeed(horse.currentSpeed) // Get new speed based on condition
+      horse.distanceCovered += horse.currentSpeed // Update distance covered
+    })
+
+    // sort by distance covered and assign finish position if any horse has finished
+    ongoingRace.horses.sort((a, b) => b.distanceCovered - a.distanceCovered)
+    ongoingRace.horses.forEach((horse, index) => {
+      if (horse.distanceCovered >= ongoingRace.distance) {
+        horse.finishPosition = index + 1 // Assign finish position
+      } else {
+        horse.finishPosition = undefined // Not finished yet
+      }
+    })
+
+    state.ongoingRace = {
+      ...ongoingRace,
+    }
+
+    // Check if race is finished
+    if (ongoingRace.horses.every((horse) => horse.finishPosition !== undefined)) {
+      // All horses have finished
+      state.isRunning = false
+      state.results.push({
+        roundId: ongoingRace.roundId,
+        results: ongoingRace.horses.map((horse) => ({
+          id: horse.id,
+          name: horse.name,
+          color: horse.color,
+          time: 0, // Calculate time based on distance and speed
+          position: horse.finishPosition || 0, // Use finish position or 0 if not
+          distanceCovered: horse.distanceCovered,
+          condition: state.horses.find((h) => h.id === horse.id)?.condition || 100, // Use original horse condition
+        })),
+      })
+      state.ongoingRace = null // Reset
+    }
   },
 }

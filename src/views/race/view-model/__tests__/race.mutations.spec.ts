@@ -61,7 +61,7 @@ describe('mutations', () => {
       // apply mutation
       GENERATE_RACE_SCHEDULE(state)
       // assert result
-      expect(state.raceSchedule?.rounds).toHaveLength(6)
+      expect(state.raceSchedule).toHaveLength(6)
     })
     it('should pick 10 horses for each round', () => {
       // mock state with horse names
@@ -73,7 +73,7 @@ describe('mutations', () => {
       GENERATE_RACE_SCHEDULE(state)
 
       // assert result
-      state.raceSchedule?.rounds.forEach((round) => {
+      state.raceSchedule?.forEach((round) => {
         expect(round.selectedHorses).toHaveLength(10)
       })
     })
@@ -87,7 +87,7 @@ describe('mutations', () => {
       GENERATE_HORSE_NAMES(state)
       GENERATE_RACE_SCHEDULE(state)
       // assert result
-      state.raceSchedule?.rounds.forEach((round) => {
+      state.raceSchedule.forEach((round) => {
         round.selectedHorses.forEach((horse) => {
           expect(state.horses).toContain(horse)
         })

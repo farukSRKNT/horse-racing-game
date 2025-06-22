@@ -1,5 +1,5 @@
-import type { Horse } from './race.abstract'
-import { HORSE_NAMES_POOL } from './race.fixture'
+import type { Horse, SelectedHorse } from './race.abstract'
+import { HORSE_NAMES_POOL, MIN_HORSE_SPEED } from './race.fixture'
 
 /**
  * Randomly selects 20 unique horse names from the pool
@@ -12,9 +12,22 @@ export const generateRandomHorseNames = (): string[] => {
 /**
  * Randomly selects specified count of unique horse names from the pool
  */
-export const pickHorses = (horseList: Array<Horse>): Array<Horse> => {
+export const pickHorses = (horseList: Array<Horse>): Array<SelectedHorse> => {
   const COUNT = 10
 
   const shuffled = [...horseList].sort(() => 0.5 - Math.random())
-  return shuffled.slice(0, COUNT)
+  return shuffled.slice(0, COUNT).map((horse, index) => ({
+    ...horse,
+    position: index + 1, // Assign position based on index
+  }))
+}
+
+/**
+ * Generates a new speed by changing current speed between -5 and 10 randomly
+ * @param currentSpeed - The current speed of the horse
+ * @returns New speed
+ */
+export const getNewHorseSpeed = (currentSpeed: number): number => {
+  const speedChange = Math.floor(Math.random() * 16) - 5 // Random change between -5 and 10
+  return Math.max(MIN_HORSE_SPEED, currentSpeed + speedChange) // Ensure speed doesn't go below 0
 }

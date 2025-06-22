@@ -18,8 +18,18 @@ export default defineConfigWithVueTs(
 
   globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
 
-  pluginVue.configs['flat/essential'],
+  pluginVue.configs['flat/recommended'],
   vueTsConfigs.recommended,
+
+  // Add this new config object
+  {
+    name: 'app/rules',
+    files: ['**/*.{ts,mts,tsx,vue}'],
+    rules: {
+      'no-undef': 'error',
+      'vue/no-unused-components': 'warn',
+    },
+  },
 
   {
     ...pluginVitest.configs.recommended,

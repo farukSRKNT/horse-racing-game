@@ -16,8 +16,9 @@ import { onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import BaseTable from '../../atoms/table/base-table.component.vue'
 import type { TableColumn } from '../../atoms/table/base-table.abstract'
+import { raceViewModelKey } from '@/views/race/view-model/race.view-model'
 
-const store = useStore()
+const store = useStore(raceViewModelKey)
 
 const horses = computed(() => store.state.race.horses)
 
