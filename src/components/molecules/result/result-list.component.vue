@@ -12,6 +12,7 @@
             :data="result.results"
             :striped="true"
             :hoverable="true"
+            :default-sort="{ key: 'position', direction: 'asc' }"
             empty-message="No race results available"
           >
           </BaseTable>
