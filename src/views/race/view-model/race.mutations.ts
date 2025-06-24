@@ -53,18 +53,6 @@ export const mutations = {
     const { ongoingRace } = state
     if (ongoingRace === null || !state.isRunning) return
 
-    console.log('TICK', ongoingRace.roundId, ongoingRace.distance, ongoingRace.horses)
-    console.table(
-      ongoingRace.horses.map((h) => ({
-        id: h.id,
-        name: h.name,
-        color: h.color,
-        position: h.position,
-        currentSpeed: h.currentSpeed,
-        distanceCovered: h.distanceCovered,
-        condition: state.horses.find((horse) => horse.id === h.id)?.condition || 100, // Use original horse condition
-      })),
-    )
     ongoingRace.horses.forEach((horse) => {
       // Simulate speed and distance covered
       horse.currentSpeed = getNewHorseSpeed(horse.currentSpeed) // Get new speed based on condition
