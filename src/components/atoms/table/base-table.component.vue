@@ -86,6 +86,7 @@ const props = withDefaults(defineProps<Props>(), {
   striped: true,
   hoverable: true,
   emptyMessage: 'No data available',
+  defaultSort: undefined,
 })
 
 const emit = defineEmits<Emits>()
