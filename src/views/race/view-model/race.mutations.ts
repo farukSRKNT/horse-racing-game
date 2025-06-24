@@ -1,6 +1,11 @@
 import { MutationTypes, type RaceState } from './race.abstract'
 import { HORSE_COLORS, ROUND_DISTANCES, ROUND_PER_RACE } from './race.fixture'
-import { generateRandomHorseNames, getNewHorseSpeed, pickHorses } from './race.utils'
+import {
+  generateRandomHorseNames,
+  getNewHorseSpeed,
+  pickHorses,
+  isRaceFinished,
+} from './race.utils'
 
 export const mutations = {
   [MutationTypes.GENERATE_HORSE_NAMES](state: RaceState) {
@@ -26,17 +31,19 @@ export const mutations = {
     const raceSchedule = state.raceSchedule.find((schedule) => schedule.id === roundId)
     if (!raceSchedule) return // No
 
-    state.isRunning = true
-    state.ongoingRace = {
-      roundId,
-      distance: raceSchedule.distance,
-      horses: raceSchedule.selectedHorses.map((horse) => ({
-        ...horse,
-        position: 0, // Initial position
-        currentSpeed: 0, // Initial speed
-        distanceCovered: 0, // Initial distance covered
-      })),
+    if (state.ongoingRace === null || isRaceFinished(state.ongoingRace)) {
+      state.ongoingRace = {
+        roundId,
+        distance: raceSchedule.distance,
+        horses: raceSchedule.selectedHorses.map((horse) => ({
+          ...horse,
+          position: 0, // Initial position
+          currentSpeed: 0, // Initial speed
+          distanceCovered: 0, // Initial distance covered
+        })),
+      }
     }
+    state.isRunning = true
   },
   [MutationTypes.PAUSE](state: RaceState) {
     state.isRunning = false
@@ -46,6 +53,18 @@ export const mutations = {
     const { ongoingRace } = state
     if (ongoingRace === null || !state.isRunning) return
 
+    console.log('TICK', ongoingRace.roundId, ongoingRace.distance, ongoingRace.horses)
+    console.table(
+      ongoingRace.horses.map((h) => ({
+        id: h.id,
+        name: h.name,
+        color: h.color,
+        position: h.position,
+        currentSpeed: h.currentSpeed,
+        distanceCovered: h.distanceCovered,
+        condition: state.horses.find((horse) => horse.id === h.id)?.condition || 100, // Use original horse condition
+      })),
+    )
     ongoingRace.horses.forEach((horse) => {
       // Simulate speed and distance covered
       horse.currentSpeed = getNewHorseSpeed(horse.currentSpeed) // Get new speed based on condition

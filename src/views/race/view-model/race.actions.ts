@@ -7,7 +7,6 @@ export const actions = {
     const interval = setInterval(() => {
       if (state.isRunning) {
         commit(MutationTypes.TICK)
-        console.log('Timer tick:', state)
       } else {
         clearInterval(interval)
         state._timerInterval = null

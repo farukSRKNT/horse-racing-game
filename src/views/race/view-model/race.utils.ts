@@ -31,3 +31,10 @@ export const getNewHorseSpeed = (currentSpeed: number): number => {
   const speedChange = Math.floor(Math.random() * 16) - 5 // Random change between -5 and 10
   return Math.min(Math.max(MIN_HORSE_SPEED, currentSpeed + speedChange), MAX_HORSE_SPEED) // Ensure speed doesn't go below MIN_HORSE_SPEED or above MAX_HORSE_SPEED
 }
+
+/**
+ * @returns true if all horses have finished
+ */
+export const isRaceFinished = (race: OngoingRace): boolean => {
+  return race.horses.every((horse) => horse.finishPosition !== undefined)
+}
