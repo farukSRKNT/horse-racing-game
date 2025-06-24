@@ -1,0 +1,7 @@
+import{d as p,c as i,a as n,t as d,n as s,b as h,o as u}from"./iframe-DzM-ZmAp.js";import{_}from"./_plugin-vue_export-helper-DlAUqK2U.js";const m=p({__name:"base-horse.component",props:{color:{},speed:{},name:{}},setup(l){const r=l;return(o,B)=>(u(),i("div",{class:s(o.$style.horseContainer)},[n("span",{class:s(o.$style.horseName)},d(r.name),3),n("div",{class:s(o.$style.horse),style:h({backgroundColor:r.color})},"🐎",6)],2))}}),g="_horseContainer_1bplh_1",y="_horse_1bplh_1",b="_horseName_1bplh_19",f={horseContainer:g,horse:y,horseName:b},N={$style:f},C=_(m,[["__cssModules",N]]);m.__docgenInfo={exportName:"default",displayName:"base-horse.component",description:"",tags:{},props:[{name:"color",required:!0,type:{name:"string"}},{name:"speed",required:!0,type:{name:"number"}},{name:"name",required:!0,type:{name:"string"}}],sourceFiles:["/home/runner/work/horse-racing-game/horse-racing-game/src/components/atoms/horse/base-horse.component.vue"]};const $={title:"Atoms/Horse",component:C,argTypes:{color:{control:"color"},speed:{control:{type:"number",min:1,max:10,step:.5}},name:{control:"text",description:"Name of the horse"}}},e={args:{color:"#8B4513",speed:4,name:"Thunderbolt"}};var a,t,c;e.parameters={...e.parameters,docs:{...(a=e.parameters)==null?void 0:a.docs,source:{originalSource:`{
+  args: {
+    color: '#8B4513',
+    speed: 4,
+    name: 'Thunderbolt'
+  }
+}`,...(c=(t=e.parameters)==null?void 0:t.docs)==null?void 0:c.source}}};const q=["Default"];export{e as Default,q as __namedExportsOrder,$ as default};
