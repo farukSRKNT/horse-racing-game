@@ -26,7 +26,6 @@ export default defineConfigWithVueTs(
     name: 'app/rules',
     files: ['**/*.{ts,mts,tsx,vue}'],
     rules: {
-      'no-undef': 'error',
       'vue/no-unused-components': 'warn',
     },
   },
