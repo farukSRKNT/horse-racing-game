@@ -1,5 +1,0 @@
-import{d as m,c as p,a as i,n as u,b as s,o as d}from"./iframe-CyghM2LZ.js";import{_}from"./_plugin-vue_export-helper-DlAUqK2U.js";const t=m({__name:"base-horse.component",props:{color:{}},setup(c){const l=c;return(o,C)=>(d(),p("div",{class:s(o.$style.horseContainer)},[i("div",{class:s(o.$style.horse),style:u({backgroundColor:l.color})},"🐎",6)],2))}}),h="_horseContainer_leubl_1",g="_horse_leubl_1",f={horseContainer:h,horse:g},y={$style:f},b=_(t,[["__cssModules",y]]);t.__docgenInfo={exportName:"default",displayName:"base-horse.component",description:"",tags:{},props:[{name:"color",required:!0,type:{name:"string"}}],sourceFiles:["/home/runner/work/horse-racing-game/horse-racing-game/src/components/atoms/horse/base-horse.component.vue"]};const v={title:"Atoms/Horse",component:b,argTypes:{color:{control:"color"}}},e={args:{color:"#8B4513"}};var r,a,n;e.parameters={...e.parameters,docs:{...(r=e.parameters)==null?void 0:r.docs,source:{originalSource:`{
-  args: {
-    color: '#8B4513'
-  }
-}`,...(n=(a=e.parameters)==null?void 0:a.docs)==null?void 0:n.source}}};const x=["Default"];export{e as Default,x as __namedExportsOrder,v as default};
