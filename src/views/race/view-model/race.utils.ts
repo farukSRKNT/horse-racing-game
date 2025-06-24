@@ -1,5 +1,5 @@
 import type { Horse, SelectedHorse } from './race.abstract'
-import { HORSE_NAMES_POOL, MIN_HORSE_SPEED } from './race.fixture'
+import { HORSE_NAMES_POOL, MAX_HORSE_SPEED, MIN_HORSE_SPEED } from './race.fixture'
 
 /**
  * Randomly selects 20 unique horse names from the pool
@@ -29,5 +29,5 @@ export const pickHorses = (horseList: Array<Horse>): Array<SelectedHorse> => {
  */
 export const getNewHorseSpeed = (currentSpeed: number): number => {
   const speedChange = Math.floor(Math.random() * 16) - 5 // Random change between -5 and 10
-  return Math.max(MIN_HORSE_SPEED, currentSpeed + speedChange) // Ensure speed doesn't go below 0
+  return Math.min(Math.max(MIN_HORSE_SPEED, currentSpeed + speedChange), MAX_HORSE_SPEED) // Ensure speed doesn't go below MIN_HORSE_SPEED or above MAX_HORSE_SPEED
 }

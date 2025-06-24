@@ -1,48 +1,57 @@
-// src/components/organisms/base-table/base-table.component.vue
 <template>
   <div :class="$style.tableContainer">
-    <table :class="$style.table">
-      <thead :class="$style.header">
-        <tr>
-          <th
-            v-for="column in columns"
-            :key="column.key"
-            :class="[$style.headerCell, { [$style.sortable]: column.sortable }]"
-            @click="column.sortable ? handleSort(column.key) : null"
-          >
-            <div :class="$style.headerContent">
-              {{ column.label }}
-              <span v-if="column.sortable" :class="$style.sortIcon">
-                {{ getSortIcon(column.key) }}
-              </span>
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody :class="$style.body">
-        <tr
-          v-for="(row, index) in sortedData"
-          :key="getRowKey(row, index)"
-          :class="[
-            $style.row,
-            { [$style.striped]: striped && index % 2 === 1 },
-            { [$style.hoverable]: hoverable },
-          ]"
-          @click="$emit('row-click', row, index)"
-        >
-          <td v-for="column in columns" :key="column.key" :class="[$style.cell, column.cellClass]">
-            <slot
-              :name="`cell-${column.key}`"
-              :row="row"
-              :value="getCellValue(row, column.key)"
-              :index="index"
+    <div :class="$style.tableHead">
+      <table :class="$style.table">
+        <thead :class="$style.header">
+          <tr>
+            <th
+              v-for="column in columns"
+              :key="column.key"
+              :class="[$style.headerCell, { [$style.sortable]: column.sortable }]"
+              @click="column.sortable ? handleSort(column.key) : null"
             >
-              {{ getCellValue(row, column.key) }}
-            </slot>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+              <div :class="$style.headerContent">
+                {{ column.label }}
+                <span v-if="column.sortable" :class="$style.sortIcon">
+                  {{ getSortIcon(column.key) }}
+                </span>
+              </div>
+            </th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div :class="$style.tableBody">
+      <table :class="$style.table">
+        <tbody :class="$style.body">
+          <tr
+            v-for="(row, index) in sortedData"
+            :key="getRowKey(row, index)"
+            :class="[
+              $style.row,
+              { [$style.striped]: striped && index % 2 === 1 },
+              { [$style.hoverable]: hoverable },
+            ]"
+            @click="$emit('row-click', row, index)"
+          >
+            <td
+              v-for="column in columns"
+              :key="column.key"
+              :class="[$style.cell, column.cellClass]"
+            >
+              <slot
+                :name="`cell-${column.key}`"
+                :row="row"
+                :value="getCellValue(row, column.key)"
+                :index="index"
+              >
+                {{ getCellValue(row, column.key) }}
+              </slot>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <div v-if="data.length === 0" :class="$style.emptyState">
       <slot name="empty">
@@ -133,9 +142,22 @@ const getSortIcon = (key: string): string => {
 
 .tableContainer {
   width: 100%;
-  overflow-x: auto;
   border-radius: tokens.$border-radius-medium;
   border: 1px solid tokens.$color-border;
+  background: tokens.$color-bg-primary;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.tableHead {
+  background: tokens.$color-bg-secondary;
+  border-bottom: 1px solid tokens.$color-border;
+}
+
+.tableBody {
+  flex: 1;
+  overflow-y: auto;
   background: tokens.$color-bg-primary;
 }
 

@@ -39,10 +39,11 @@ interface HorseResult extends Horse {
 
 interface RoundResult {
   roundId: number
+  distance: number
   results: HorseResult[]
 }
 
-interface RacingHorse {
+export interface RacingHorse {
   id: string
   name: string
   color: string
@@ -52,7 +53,7 @@ interface RacingHorse {
   finishPosition?: number // Optional, to track if the horse has finished
 }
 
-interface OngoingRace {
+export interface OngoingRace {
   roundId: number
   distance: number
   horses: RacingHorse[]

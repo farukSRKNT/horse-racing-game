@@ -1,5 +1,6 @@
 <template>
   <div :class="$style.horseListContainer">
+    <h3 :class="$style.title">Horse List</h3>
     <BaseTable
       :columns="columns"
       :data="horses"
@@ -7,7 +8,13 @@
       :hoverable="true"
       :default-sort="{ key: 'condition', direction: 'desc' }"
       :empty-message="'No horses available for racing'"
-    />
+    >
+      <template #cell-color="{ value }">
+        <div :class="$style.colorCell">
+          <div :class="$style.colorCircle" :style="{ backgroundColor: value }"></div>
+        </div>
+      </template>
+    </BaseTable>
   </div>
 </template>
 
@@ -26,7 +33,7 @@ const horses = computed(() => store.state.race.horses)
 const columns: TableColumn[] = [
   { key: 'name', label: 'Name', sortable: true },
   { key: 'condition', label: 'Condition', sortable: true },
-  { key: 'color', label: 'Color', sortable: false, cellClass: 'color-cell' },
+  { key: 'color', label: 'Color', sortable: false },
 ]
 
 onMounted(() => {
@@ -39,21 +46,31 @@ onMounted(() => {
 
 .horseListContainer {
   width: 100%;
+  padding: tokens.$spacing-lg;
+  min-height: 0;
+}
 
-  :global(.color-cell) {
-    text-align: center;
+.colorCell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    &::before {
-      content: '';
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background-color: var(--horse-color);
-      margin-right: tokens.$spacing-xs;
-      vertical-align: middle;
-      border: 1px solid tokens.$color-gray-300;
-    }
-  }
+.colorCircle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid tokens.$color-border;
+  display: inline-block;
+}
+
+.title {
+  background: tokens.$color-bg-secondary;
+  margin: 0;
+  padding: tokens.$spacing-md tokens.$spacing-lg;
+  font-size: tokens.$font-size-lg;
+  font-weight: tokens.$font-weight-semibold;
+  color: tokens.$color-text-primary;
+  border-bottom: 1px solid tokens.$color-border;
 }
 </style>

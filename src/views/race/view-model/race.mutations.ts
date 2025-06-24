@@ -22,11 +22,15 @@ export const mutations = {
   [MutationTypes.START](state: RaceState) {
     if (state.isRunning) return // Prevent starting if already running
 
+    const roundId = (state.results.at(-1)?.roundId || 0) + 1 // Continue from the last completed round or start with the first round
+    const raceSchedule = state.raceSchedule.find((schedule) => schedule.id === roundId)
+    if (!raceSchedule) return // No
+
     state.isRunning = true
     state.ongoingRace = {
-      roundId: state.results.at(-1)?.roundId || 1, // Start with the first round or continue from the last completed round
-      distance: state.raceSchedule[0].distance,
-      horses: state.raceSchedule[0].selectedHorses.map((horse) => ({
+      roundId,
+      distance: raceSchedule.distance,
+      horses: raceSchedule.selectedHorses.map((horse) => ({
         ...horse,
         position: 0, // Initial position
         currentSpeed: 0, // Initial speed
@@ -76,12 +80,12 @@ export const mutations = {
     })
 
     // sort by distance covered and assign finish position if any horse has finished
-    ongoingRace.horses.sort((a, b) => b.distanceCovered - a.distanceCovered)
-    ongoingRace.horses.forEach((horse, index) => {
+    const sortedHorses = [...ongoingRace.horses].sort(
+      (a, b) => b.distanceCovered - a.distanceCovered,
+    )
+    sortedHorses.forEach((horse, index) => {
       if (horse.distanceCovered >= ongoingRace.distance) {
-        horse.finishPosition = index + 1 // Assign finish position
-      } else {
-        horse.finishPosition = undefined // Not finished yet
+        ongoingRace.horses.find((h) => h.id === horse.id)!.finishPosition = index + 1 // Assign finish position
       }
     })
 
@@ -95,6 +99,7 @@ export const mutations = {
       state.isRunning = false
       state.results.push({
         roundId: ongoingRace.roundId,
+        distance: ongoingRace.distance,
         results: ongoingRace.horses.map((horse) => ({
           id: horse.id,
           name: horse.name,

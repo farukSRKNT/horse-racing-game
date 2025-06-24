@@ -134,3 +134,4 @@ export const HORSE_COLORS: readonly string[] = [
 ] as const
 
 export const MIN_HORSE_SPEED: number = 10
+export const MAX_HORSE_SPEED: number = 50
