@@ -6,4 +6,5 @@ export const SEED_STATE: RaceState = {
   results: [],
   isRunning: false,
   ongoingRace: null,
+  _timerInterval: null, // Timer interval
 }

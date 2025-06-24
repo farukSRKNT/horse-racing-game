@@ -11,7 +11,7 @@
     >
       <template #cell-color="{ value }">
         <div :class="$style.colorCell">
-          <div :class="$style.colorCircle" :style="{ backgroundColor: value }"></div>
+          <div :class="$style.colorCircle" :style="{ backgroundColor: value as string }"></div>
         </div>
       </template>
     </BaseTable>

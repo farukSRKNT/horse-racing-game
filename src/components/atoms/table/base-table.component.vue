@@ -61,13 +61,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends Record<string, unknown>">
 import { computed, ref } from 'vue'
-import type { TableColumn, TableData, SortDirection } from './base-table.abstract'
+import type { TableColumn, SortDirection } from './base-table.abstract'
 
 interface Props {
   columns: TableColumn[]
-  data: TableData[]
+  data: T[]
   striped?: boolean
   hoverable?: boolean
   emptyMessage?: string
@@ -78,7 +78,7 @@ interface Props {
 }
 
 interface Emits {
-  (e: 'row-click', row: TableData, index: number): void
+  (e: 'row-click', row: T, index: number): void
   (e: 'sort-change', key: string, direction: SortDirection): void
 }
 
@@ -108,7 +108,7 @@ const sortedData = computed(() => {
   })
 })
 
-const getCellValue = (row: TableData, key: string): unknown => {
+const getCellValue = (row: T, key: string): unknown => {
   return key.split('.').reduce((obj: unknown, k: string) => {
     return obj && typeof obj === 'object' && k in obj
       ? (obj as Record<string, unknown>)[k]
@@ -116,7 +116,7 @@ const getCellValue = (row: TableData, key: string): unknown => {
   }, row)
 }
 
-const getRowKey = (row: TableData, index: number): string => {
+const getRowKey = (row: T, index: number): string => {
   return row.id?.toString() || index.toString()
 }
 

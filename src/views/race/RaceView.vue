@@ -32,7 +32,7 @@ import { useStore } from 'vuex'
 import { raceViewModelKey } from './view-model/race.view-model'
 // import { Hippodrome } from '@/components/organisms/hippodrome'
 import { computed } from 'vue'
-import RaceTrack from '@/components/atoms/race-track/race-track.component.vue'
+import RaceTrack from '@/components/organisms/race-track/race-track.component.vue'
 
 const store = useStore(raceViewModelKey)
 

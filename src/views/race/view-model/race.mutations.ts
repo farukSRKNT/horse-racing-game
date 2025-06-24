@@ -41,33 +41,6 @@ export const mutations = {
   [MutationTypes.PAUSE](state: RaceState) {
     state.isRunning = false
   },
-  [MutationTypes.PROCEED](state: RaceState) {
-    if (!state.isRunning || state.raceSchedule.length === 0) return
-
-    const currentRound = state.raceSchedule.find(
-      (round) => !state.results.some((result) => result.roundId === round.id),
-    )
-
-    if (!currentRound) return
-
-    const results = currentRound.selectedHorses.map((horse) => ({
-      ...horse,
-      time: Math.random() * 100, // Simulate random time
-      position: 0, // Placeholder for position
-    }))
-    results.sort((a, b) => a.time - b.time)
-    results.forEach((result, index) => {
-      result.position = index + 1
-    })
-    state.results.push({
-      roundId: currentRound.id,
-      results,
-    })
-    // Check if all rounds are completed
-    if (state.results.length === state.raceSchedule.length) {
-      state.isRunning = false
-    }
-  },
   [MutationTypes.TICK](state: RaceState) {
     // Start and proceed one second of the race
     const { ongoingRace } = state
@@ -110,7 +83,7 @@ export const mutations = {
           condition: state.horses.find((h) => h.id === horse.id)?.condition || 100, // Use original horse condition
         })),
       })
-      state.ongoingRace = null // Reset
+      // state.ongoingRace = null // Reset
     }
   },
 }

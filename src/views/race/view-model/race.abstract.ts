@@ -1,4 +1,4 @@
-export interface Horse {
+export interface Horse extends Record<string, unknown> {
   id: string
   name: string
   color: string
@@ -15,6 +15,7 @@ export interface RaceState {
   results: RoundResult[]
   isRunning: boolean
   ongoingRace: OngoingRace | null
+  _timerInterval: NodeJS.Timeout | null
 }
 
 export enum MutationTypes {
@@ -33,7 +34,6 @@ export interface Round {
 }
 
 interface HorseResult extends Horse {
-  time: number // Time taken for the round
   position: number // Position in the round
 }
 
@@ -57,4 +57,9 @@ export interface OngoingRace {
   roundId: number
   distance: number
   horses: RacingHorse[]
+}
+
+export interface RaceActionType {
+  commit: (arg0: MutationTypes) => void
+  state: RaceState
 }

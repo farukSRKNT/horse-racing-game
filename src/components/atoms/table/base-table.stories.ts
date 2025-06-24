@@ -5,7 +5,8 @@ import type { TableColumn, TableData } from './base-table.abstract'
 
 const meta: Meta<typeof BaseTable> = {
   title: 'Atoms/BaseTable',
-  component: BaseTable,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  component: BaseTable as any,
   parameters: {
     layout: 'centered',
     docs: {

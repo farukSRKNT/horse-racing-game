@@ -3,7 +3,7 @@
     <div :class="$style.tableSection">
       <h3 :class="$style.tableTitle">Results</h3>
       <div :class="$style.roundWrapper">
-        <div v-for="result of results" :key="result.id" :class="$style.roundInfo">
+        <div v-for="result of results" :key="result.roundId" :class="$style.roundInfo">
           <h4 :class="$style.tableTitle">
             Round {{ result.roundId }} - Distance: {{ result.distance }} m
           </h4>
@@ -32,14 +32,11 @@ import { raceViewModelKey } from '@/views/race/view-model/race.view-model'
 const resultsColumns: TableColumn[] = [
   { key: 'position', label: 'Position', sortable: true, width: '100px' },
   { key: 'name', label: 'Horse Name', sortable: true },
-  { key: 'time', label: 'Time', sortable: true, width: '120px' },
 ]
 
 const store = useStore(raceViewModelKey)
 
 const results = computed(() => store.state.race.results)
-
-console.log('results', results.value)
 </script>
 
 <style module lang="scss">
