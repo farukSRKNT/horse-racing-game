@@ -1,4 +1,4 @@
-import type { Horse, SelectedHorse } from './race.abstract'
+import type { Horse, SelectedHorse, OngoingRace } from './race.abstract'
 import { HORSE_NAMES_POOL, MAX_HORSE_SPEED, MIN_HORSE_SPEED } from './race.fixture'
 
 /**
