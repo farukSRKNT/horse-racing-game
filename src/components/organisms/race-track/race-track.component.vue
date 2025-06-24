@@ -1,31 +1,37 @@
 <!-- race-track.component.vue -->
 <template>
-  <div :class="$style.raceTrackWrapper">
-    <div :class="$style.positions">
-      <div v-for="index in HORSE_COUNT_IN_A_RACE" :key="index" :class="$style.position">
-        <span>{{ index }}</span>
-      </div>
+  <div :class="$style.raceTrackContainer">
+    <div :class="$style.raceInfo">
+      <h2 v-if="race?.roundId">
+        {{ `Round ${race?.roundId}` }}
+      </h2>
     </div>
-    <div :key="`race-track-${race?.roundId}`" :class="$style.raceTrack">
-      <!-- Lane dividers -->
-      <div
-        v-for="n in HORSE_COUNT_IN_A_RACE"
-        :key="`lane-${n}`"
-        :class="$style.laneDivider"
-        :style="{ top: `${(n - 1) * laneHeight}px` }"
-      />
-
-      <!-- Horses -->
-      <div v-for="(horse, index) in racingHorses" :key="horse.id">
-        <BaseHorse
-          :name="horse.name"
-          :color="horse.color"
-          :speed="5"
-          :style="{
-            transform: `translateX(${getHorsePosition(horse)}px)`,
-            top: `${index * laneHeight}px`,
-          }"
+    <div :class="$style.raceTrackWrapper">
+      <div :class="$style.positions">
+        <div v-for="index in HORSE_COUNT_IN_A_RACE" :key="index" :class="$style.position">
+          <span>{{ index }}</span>
+        </div>
+      </div>
+      <div :key="`race-track-${race?.roundId}`" :class="$style.raceTrack">
+        <!-- Lane dividers -->
+        <div
+          v-for="n in HORSE_COUNT_IN_A_RACE"
+          :key="`lane-${n}`"
+          :class="$style.laneDivider"
+          :style="{ top: `${(n - 1) * laneHeight}px` }"
         />
+
+        <!-- Horses -->
+        <div v-for="(horse, index) in racingHorses" :key="horse.id">
+          <BaseHorse
+            :name="horse.name"
+            :color="horse.color"
+            :style="{
+              transform: `translateX(${getHorsePosition(horse)}px)`,
+              top: `${index * laneHeight + TOP_PADDING}px`,
+            }"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -45,6 +51,7 @@ const store = useStore(raceViewModelKey)
 const race = computed(() => store.state.race.ongoingRace)
 const racingHorses = computed(() => store.state.race.ongoingRace?.horses || [])
 const laneHeight = 60 // pixels per lane
+const TOP_PADDING = 16 // top padding to center the horse vertically
 
 const getHorsePosition = (horse: RacingHorse): number => {
   const parentWidth = RACE_TRACK_WIDTH - 44
@@ -58,12 +65,24 @@ const getHorsePosition = (horse: RacingHorse): number => {
 <style module lang="scss">
 @use '../../../styles/design-tokens.scss' as tokens;
 
+.raceTrackContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.raceInfo {
+  height: 40px;
+}
+
 .raceTrackWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
 }
 
 .positions {
@@ -89,7 +108,6 @@ const getHorsePosition = (horse: RacingHorse): number => {
   height: 600px;
   background: linear-gradient(90deg, #8fbc8f 0%, #98fb98 100%);
   border: 2px solid #654321;
-  overflow: hidden;
 }
 
 .laneDivider {

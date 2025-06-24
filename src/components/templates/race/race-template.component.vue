@@ -61,7 +61,7 @@ defineProps<Props>()
 .content {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: 700px 800px;
   grid-template-areas:
     'top top top'
     'left center right';
